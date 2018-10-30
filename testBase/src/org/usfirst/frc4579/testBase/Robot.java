@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
-
+    	Robot.measurement.resetFlowMotion();
     }
 
     @Override
@@ -110,5 +110,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        Robot.measurement.updateMeasurements();
     }
 }
