@@ -47,18 +47,19 @@ public class AutonomousCommand extends Command {
     protected void execute() {
         Robot.measurement.updateMeasurements();
         
-        System.out.print(Robot.measurement.getDeltaX()); System.out.print('\t');
-        System.out.print(Robot.measurement.getDeltaY());	System.out.print('\t');
+        System.out.print(Robot.measurement.getAngleRate()); System.out.print('\t');
         System.out.print(Robot.measurement.getFlowMotionX());	System.out.print('\t');
         System.out.println(Robot.measurement.getFlowMotionY());
    
-        Robot.driveBase.driveStraight(.3);
+        
+        
+        Robot.driveBase.driveStraight(.3);;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return goal <= Robot.measurement.getFlowMotionX();
+        return goal <= Robot.measurement.getFlowMotionY();
     }
 
     // Called once after isFinished returns true

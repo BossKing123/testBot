@@ -47,14 +47,7 @@ public class drive extends Command {
     protected void execute() {
     	Robot.driveBase.joeyStickDrive(Robot.oi.joystick.getX(), Robot.oi.joystick.getY());
     	
-    	SmartDashboard.putNumber("Flow Motion X: ", Robot.measurement.getFlowMotionX());
-    	SmartDashboard.putNumber("Flow Motion Y: ", Robot.measurement.getFlowMotionY());
-    	
-    	System.out.print("X: ");
-    	System.out.println(Robot.measurement.getDeltaX());
-    	
-    	System.out.print("Y: ");
-    	System.out.println(Robot.measurement.getDeltaY());
+    	System.out.println("drive code is running");
     }
 
     // Make this return true when this Command no longer needs to run execute()
