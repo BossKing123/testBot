@@ -125,13 +125,47 @@ public class driveBase extends Subsystem {
     	rightMotor.stopMotor();
     }
     
-    // The main drive of the robot
-    public void drive() {
-    	double x = Robot.oi.joystick.getX();
-    	double y = Robot.oi.joystick.getY();
-    	
-    	robotDrive.arcadeDrive(x, y);
+    
+    // Test method for driving the flowMotion sensor
+    /*
+    public void testFlowMotionDrive(int flowMotionGoal) {
+        
+    	int goal = flowMotionGoal;
+        int cycles = 0;
+        double maxSpeed = .5;
+        int slowPoint;
+        boolean isSlowing = false;
+    	double speed = 0;
+        
+        // Robot speeds up to max speed
+        if(cycles < 60) {
+        	if(Robot.measurement.getFlowMotionX() <= goal/2) {
+        		isSlowing = true;
+        	}
+        	speed += 1/60 * maxSpeed;
+        	cycles++;
+        }
+        
+        // Marks what point it should start slowing down at
+        else if(cycles == 60 && !isSlowing) {
+        	slowPoint = goal - Robot.measurement.getFlowMotionX();
+        }
+        
+        // Starts slowing if I reached the point I need to slow down at
+        else if(Robot.measurement.getFlowMotionX() >= slowPoint) {
+        	isSlowing = true;
+        }
+        
+        // Robot slows down to a stop
+        else if(isSlowing) {
+        	speed -= 1/cycles * maxSpeed;
+        	
+        	speed = Math.max(0, speed);
+        }
+        
+        Robot.driveBase.driveStraight(speed);
     }
+    */
     
     @Override
     public void initDefaultCommand() {
