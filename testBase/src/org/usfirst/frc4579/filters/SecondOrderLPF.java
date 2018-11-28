@@ -57,7 +57,7 @@ public class SecondOrderLPF {
 	}
 	
 	/*
-	 * This constructor attempts to calculate the coefficients itelf be using a default cutoff frequency and filter passband width
+	 * This constructor attempts to calculate the coefficients itself by using a default cutoff frequency and filter passband width
 	 */
 	public SecondOrderLPF() {
 		setLPFCoefficients();

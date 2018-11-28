@@ -6,16 +6,29 @@ import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
+// This class is the interface to the optical Flow Motion sensor from Bitcraze.
+// It initializes the sensor at the time the constructor is instantiated, and 
+// and then reads the sensor when requested.  The sensor provides two values
+// of detected motion, for both X and Y directions.  Their meaning depends on
+// how the sensor is mounted on the robot.  There are also values for determining
+// if there is a good reading, and if the sensor is accessible.
+
 public class FlowMotion extends SensorBase {
 	// Define the public and private data values from the sensor.  
 	public int deltaX, deltaY, squal, shutter;
+	public double deltaT;
 	public boolean goodSensor = false;
 	private int oldX, oldY = 0;
 	// Instantiate channels.
 	SPI spiFlow;
 	DigitalOutput cs;
+	// Initialize delta time variables.
+	private double time = Timer.getFPGATimestamp();
+	private double lastTime = time;
 	
 	// Constructor.
+	// Define the SPI port and the DIO channel used for chip select to the sensor.
+	// (The SPI CS line can't be used due to sensor timing issues.)
 	public FlowMotion(SPI.Port port, int chipSelectPort) {
 		// Create the SPI port.
 		spiFlow = new SPI(port);
@@ -27,8 +40,10 @@ public class FlowMotion extends SensorBase {
 	
 	//Primary functional method for the flow sensor.  The calling program should
 	//  execute this method, and if it returns true, access the data elements
-	//  directly, like: count = flowSensor.deltaX;
-	public boolean readMotionCount() {
+	//  directly, like: count = flowSensor.deltaX; ...or use the getters below.
+	//  If it returns false, then the sensor isn't detecting any motion, but the data
+	//  is set to zero so it's still valid.
+	public boolean readMotionCounts() {
 		// Read the status register and test the motion bit to see if new data is available.
 		if ((registerRead((byte)0x02) & 0x80) == 0x80) {
 			// Read the rest of the data registers in numerical order, and convert to ints.
@@ -38,6 +53,11 @@ public class FlowMotion extends SensorBase {
 			byte dYH = registerRead((byte) 0x06);
 			squal = (int) 0 | registerRead((byte) 0x07);
 			shutter = (int) 0 | registerRead((byte) 0x0C);
+			// Compute deltaT.
+			time = Timer.getFPGATimestamp();
+			deltaT = lastTime - time;
+			lastTime = time;
+			// Compute motion values.
 			deltaX = ((int)dXH << 8) | dXL;
 			deltaY = ((int)dYH << 8) | dYL;
 			// Test for a bad reading, and use the prior reading instead.
@@ -59,6 +79,26 @@ public class FlowMotion extends SensorBase {
 			shutter = 0;
 			return false;
 		}
+	}
+	
+	public int getDeltaX() {
+		return deltaX;
+	}
+	
+	public int getDeltaY() {
+		return deltaY;
+	}
+	
+	public int getSqual() {
+		return squal;
+	}
+	
+	public int getShutter() {
+		return shutter;
+	}
+	
+	public boolean getGoodSensor() {
+		return goodSensor;
 	}
 	
 	
@@ -83,7 +123,7 @@ public class FlowMotion extends SensorBase {
 	}  // End of registerWrite.
 	
 	// Read a register byte via the SPI port.
-	byte registerRead(byte reg) {
+	private byte registerRead(byte reg) {
 		// Data transfer buffer.
 		byte[] flowdata = new byte[2];
 		// Clear the high order bit on the read register.

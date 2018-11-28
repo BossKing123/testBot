@@ -49,7 +49,7 @@ public class MPU6050_I2C {
 	AxisData yGyroData  = new AxisData("yGyro" , 0.7, numCalibrationSamples, 0.0);
 	AxisData zGyroData  = new AxisData("zGyro" , 0.23, numCalibrationSamples, 0.0);
 	
-	DebugTextFile allAxisRawDataFile = new DebugTextFile("allAxisScaledMPUData", true, "xAccelRaw\tyAccelRaw\tzAccelRaw\txGyroRaw\tyGyroRaw\tzGyroRaw\tTemp", 30000);
+//	DebugTextFile allAxisRawDataFile = new DebugTextFile("allAxisScaledMPUData", true, "xAccelRaw\tyAccelRaw\tzAccelRaw\txGyroRaw\tyGyroRaw\tzGyroRaw\tTemp", 30000);
 
 	double   tempF      = 0.0; // Temperature degrees F.
 	
@@ -80,7 +80,7 @@ public class MPU6050_I2C {
 	// Initializes the MPU with pre-defined settings
 	public boolean init() {
 		
-		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_MPU_INIT, "");
+//		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_MPU_INIT, "");
 		
 		// Start the timer to determine how long init takes.
 		readTimer.reset();
@@ -106,9 +106,9 @@ public class MPU6050_I2C {
     	
 		readTimer.stop();
     	
-    	SmartDashboard.putString ("MPU6050 Init Time:", String.format("%7.4f", readTimer.get()));
+//    	SmartDashboard.putString ("MPU6050 Init Time:", String.format("%7.4f", readTimer.get()));
     	
-		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_MPU_INIT, "");
+//		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_MPU_INIT, "");
 
     	return mpuAvailable;
     	
@@ -126,7 +126,6 @@ public class MPU6050_I2C {
 			zGyroData .accumulateCalibrationData();
 
 		}
-
 	}
 	
 	// Read the raw data for each axis.
@@ -140,7 +139,7 @@ public class MPU6050_I2C {
         readTimer.reset();
         readTimer.start();
         
-        // Read until a non-zero value is returned (sometimes all-zeros are turned).
+        // Read until a non-zero value is returned (sometimes all-zeros are returned).
         do {
 
         	// Wait for a "data ready" status.
@@ -176,7 +175,7 @@ public class MPU6050_I2C {
 		
 		readTimer.stop();
 
-    	SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
+//    	SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
 		//System.out.println( "ah= " + String.format("0x%02X", READS[0]) + "  al= " + String.format("0x%02X", READS[1]));
 		
 		return true;
@@ -186,7 +185,7 @@ public class MPU6050_I2C {
 	// public access methods can be called to return values.
 	public void read( boolean isNotMoving, double timeNow) {
 		
-		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_UPDATE_MPU_DATA, "");
+//		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_UPDATE_MPU_DATA, "");
 
 		// Read the raw data and convert to scaled values.
 		if (readRawData()) {
@@ -201,28 +200,28 @@ public class MPU6050_I2C {
 			
 			// Log the data for each axis.  Could have incorporated this in processAxisData but
 			// this way allows you to disable the data for selected axes if you get overwhelmed by data.
-			xAccelData.logAxisData();
-			yAccelData.logAxisData();
-			zAccelData.logAxisData();
-			xGyroData .logAxisData();
-			yGyroData .logAxisData();
-			zGyroData .logAxisData(); 
+//			xAccelData.logAxisData();
+//			yAccelData.logAxisData();
+//			zAccelData.logAxisData();
+//			xGyroData .logAxisData();
+//			yGyroData .logAxisData();
+//			zGyroData .logAxisData(); 
 			
 			// Log the raw data for each axis.
-			allAxisRawDataFile.write(xAccelData.axisScaledValue() + "\t" +
-									 yAccelData.axisScaledValue() + "\t" +
-									 zAccelData.axisScaledValue() + "\t" +
-									 xGyroData.axisScaledValue()  + "\t" +
-									 yGyroData.axisScaledValue()  + "\t" +
-									 zGyroData.axisScaledValue()  + "\t" +
-									 tempF);
+//			allAxisRawDataFile.write(xAccelData.axisScaledValue() + "\t" +
+//									 yAccelData.axisScaledValue() + "\t" +
+//									 zAccelData.axisScaledValue() + "\t" +
+//									 xGyroData.axisScaledValue()  + "\t" +
+//									 yGyroData.axisScaledValue()  + "\t" +
+//									 zGyroData.axisScaledValue()  + "\t" +
+//									 tempF);
 			
 			//SmartDashboard.putString ("MPU6050 Temp:"     , String.format("%5.1f", getTemp()));
-			SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
+//			SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
 
 		}
 		
-		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_UPDATE_MPU_DATA, "");
+//		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_UPDATE_MPU_DATA, "");
 
 
 	}

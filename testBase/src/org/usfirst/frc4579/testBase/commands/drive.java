@@ -47,7 +47,7 @@ public class drive extends Command {
     protected void execute() {
     	Robot.driveBase.joeyStickDrive(Robot.oi.joystick.getX(), Robot.oi.joystick.getY());
     	
-    	System.out.println("drive code is running");
+//    	System.out.println("drive code is running");
     }
 
     // Make this return true when this Command no longer needs to run execute()
