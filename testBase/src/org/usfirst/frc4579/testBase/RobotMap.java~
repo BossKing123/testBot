@@ -40,10 +40,10 @@ public class RobotMap {
         driveBaseleftMotor.setInverted(false);
         driveBaserightMotor = new VictorSP(0);
         LiveWindow.addActuator("driveBase", "rightMotor", (VictorSP) driveBaserightMotor);
-        driveBaserightMotor.setInverted(false);
+        driveBaserightMotor.setInverted(true);
         driveBaserobotDrive = new DifferentialDrive(driveBaseleftMotor, driveBaserightMotor);
         LiveWindow.addActuator("driveBase", "robotDrive", driveBaserobotDrive);
-        driveBaserobotDrive.setSafetyEnabled(true);
+        driveBaserobotDrive.setSafetyEnabled(false);
         driveBaserobotDrive.setExpiration(0.1);
         driveBaserobotDrive.setMaxOutput(1.0);
 

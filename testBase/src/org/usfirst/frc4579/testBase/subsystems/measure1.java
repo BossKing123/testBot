@@ -109,7 +109,6 @@ public class measure1 extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new Measurement());
     }
 }
 

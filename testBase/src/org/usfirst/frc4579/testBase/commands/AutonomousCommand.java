@@ -44,12 +44,10 @@ public class AutonomousCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() {
-        Robot.measurement.updateMeasurements();
-        
+    protected void execute() {        
         System.out.print(Robot.measurement.getAngleRate()); System.out.print('\t');
-        System.out.print(Robot.measurement.getFlowMotionX());	System.out.print('\t');
-        System.out.println(Robot.measurement.getFlowMotionY());
+        System.out.print(Robot.measurement.getMotionX());	System.out.print('\t');
+        System.out.println(Robot.measurement.getMotionY());
    
         
         
@@ -59,7 +57,7 @@ public class AutonomousCommand extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return goal <= Robot.measurement.getFlowMotionY();
+        return goal <= Robot.measurement.getMotionY();
     }
 
     // Called once after isFinished returns true
